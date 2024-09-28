@@ -7,14 +7,14 @@ pub const SCALE: f64 = 1e5;  // Use a fixed scaling factor
 pub fn encode(plaintext: &[f64], scaling_factor: f64) -> Polynomial {
     // Print the input plaintext and scaling factor
     println!("Encoding real numbers {:?} with scaling factor {}", plaintext, scaling_factor);
-    
+
     let coeffs: Vec<i64> = plaintext.iter()
         .map(|&x| (x * scaling_factor) as i64)  // Scale the real numbers
         .collect();
-    
+
     // Print the resulting polynomial coefficients
     println!("Encoded polynomial coefficients: {:?}", coeffs);
-    
+
     Polynomial::new(coeffs)
 }
 
@@ -29,7 +29,7 @@ pub fn decode(ciphertext: &Polynomial, scaling_factor: f64, _is_multiplication: 
     let decoded_values: Vec<f64> = ciphertext.coeffs.iter()
         .map(|&c| (c as f64) / scaling_factor)  // Reverse the scaling
         .collect();
-    
+
     // Print the decoded real numbers
     println!("Decoded real numbers: {:?}", decoded_values);
 

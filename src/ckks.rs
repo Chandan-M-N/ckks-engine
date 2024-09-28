@@ -2,7 +2,7 @@ use crate::polynomial::Polynomial;
 use crate::keygen::{PublicKey, SecretKey};
 use crate::utils::{encode, decode, mod_reduce};
 
-#[derive(Debug, Clone)]  
+#[derive(Debug, Clone)]
 pub struct CkksParameters {
     pub degree: usize,   // Polynomial degree N
     pub modulus: i64,    // Prime modulus q
@@ -16,7 +16,7 @@ impl CkksParameters {
 
 pub struct CKKSEncryptor {
     pub_key: PublicKey,
-    params: CkksParameters,  
+    params: CkksParameters,
 }
 
 impl CKKSEncryptor {
@@ -75,11 +75,56 @@ impl CKKSEncryptor {
 
         reduced_result
     }
+
+    pub fn homomorphic_neg(&self, cipher: &Polynomial) -> Polynomial {
+        println!("Ciphertext before negation: {:?}", cipher);
+
+        // Negate each coefficient in the polynomial
+        let negated_coeffs: Vec<i64> = cipher.coeffs.iter().map(|&c| -c).collect();
+        let result = Polynomial::new(negated_coeffs);
+        println!("Result after homomorphic negation: {:?}", result);
+
+        // Perform modular reduction using the prime modulus
+        let reduced_result = mod_reduce(&result, self.params.modulus);
+        println!("Result after mod reduction: {:?}", reduced_result);
+
+        reduced_result
+    }
+
+    pub fn homomorphic_mul(&self, cipher1: &Polynomial, cipher2: &Polynomial) -> Polynomial {
+        println!("Ciphertext 1 before multiplication: {:?}", cipher1);
+        println!("Ciphertext 2 before multiplication: {:?}", cipher2);
+
+        let mut result_coeffs = vec![0; cipher1.coeffs.len() + cipher2.coeffs.len() - 1];
+
+        // Perform polynomial multiplication (convolution of coefficients)
+        for i in 0..cipher1.coeffs.len() {
+            for j in 0..cipher2.coeffs.len() {
+                result_coeffs[i + j] += cipher1.coeffs[i] * cipher2.coeffs[j];
+            }
+        }
+
+        let result = Polynomial::new(result_coeffs);
+        println!("Result after homomorphic multiplication (before scaling): {:?}", result);
+
+        // Rescale the result by dividing by the scaling factor
+        let scaling_factor = 1_000_000.0;
+        let rescaled_coeffs: Vec<i64> = result.coeffs.iter().map(|&c| (c as f64 / scaling_factor) as i64).collect();
+        let rescaled_poly = Polynomial::new(rescaled_coeffs);
+        println!("Result after rescaling: {:?}", rescaled_poly);
+
+        // Perform modular reduction using the prime modulus
+        let reduced_result = mod_reduce(&rescaled_poly, self.params.modulus);
+        println!("Result after mod reduction: {:?}", reduced_result);
+
+        reduced_result
+    }
+
 }
 
 pub struct CKKSDecryptor {
     sec_key: SecretKey,
-    params: CkksParameters,  
+    params: CkksParameters,
 }
 
 impl CKKSDecryptor {
@@ -109,4 +154,4 @@ impl CKKSDecryptor {
 
         decoded
     }
-}    
+}

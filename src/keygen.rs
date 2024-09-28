@@ -1,6 +1,6 @@
 use rand::Rng;
 
-#[derive(Debug, Clone)] 
+#[derive(Debug, Clone)]
 pub struct PublicKey {
     pub pk_0: Vec<i64>,
     pub pk_1: Vec<i64>,
@@ -20,7 +20,7 @@ impl KeyGenerator {
 
     pub fn generate_keys(&self) -> (PublicKey, SecretKey) {
         let mut rng = rand::thread_rng();
-        
+
         // Generate secret key (random polynomial)
         let sec_key_poly: Vec<i64> = (0..10).map(|_| rng.gen_range(1..100)).collect();
         let sec_key = SecretKey { poly: sec_key_poly.clone() };
