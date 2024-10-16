@@ -1,3 +1,5 @@
+use crate::utils::SCALE;
+
 #[derive(Debug)]
 pub struct Polynomial {
     pub coeffs: Vec<i64>,  // Coefficients for the polynomial
@@ -43,17 +45,16 @@ impl Polynomial {
 
     // Polynomial multiplication
     pub fn multiply(&self, other: &Polynomial) -> Polynomial {
-        // Determine size for the resulting polynomial
-        let result_size = self.coeffs.len().max(other.coeffs.len());
-        let mut result_coeffs = vec![0.0; result_size]; // Initialize result coefficients with f64 for scaling
-
-        // Multiply matching coefficients of both polynomials
-        let min_len = self.coeffs.len().min(other.coeffs.len());
-        for i in 0..min_len {
-            result_coeffs[i] = (self.coeffs[i] as f64 * other.coeffs[i] as f64) / 1e7; // Scale and store the product
+        let len = self.coeffs.len().min(other.coeffs.len());
+        let mut result_coeffs = Vec::with_capacity(len);
+        for i in 0..len {
+            // Use i128 to prevent overflow
+            let prod = (self.coeffs[i] as i128) * (other.coeffs[i] as i128);
+            // Rescale by dividing by SCALE
+            let scaled_prod = (prod / (SCALE as i128)) as i64;
+            result_coeffs.push(scaled_prod);
         }
-        // Create a new polynomial with rounded coefficients
-        Polynomial::new(result_coeffs.iter().map(|&x| x.round() as i64).collect())
+        Polynomial::new(result_coeffs)
     }
 
     // Polynomial negation
@@ -62,5 +63,22 @@ impl Polynomial {
         let negated_coeffs: Vec<f64> = self.coeffs.iter().map(|&c| -(c as f64)).collect();
         // Create a new polynomial with rounded negated coefficients
         Polynomial::new(negated_coeffs.iter().map(|&x| x.round() as i64).collect())
+    }
+
+    pub fn scalar_divide(&self, scalar: i64) -> Polynomial {
+        let divided_coeffs: Vec<i64> = self.coeffs.iter().map(|&c| c / scalar).collect();
+        Polynomial::new(divided_coeffs)
+    }
+    // pub fn scalar_multiply(&self, scalar: i64) -> Polynomial {
+    //     let new_coeffs: Vec<i64> = self.coeffs.iter().map(|&c| (c * scalar) / (SCALE as i64)).collect();
+    //     Polynomial::new(new_coeffs)
+    // }
+
+    pub fn scalar_multiply(&self, scalar: f64) -> Polynomial {
+        let new_coeffs: Vec<i64> = self.coeffs.iter().map(|&c| {
+            let scaled_value = (scalar * c as f64).round();
+            scaled_value as i64
+        }).collect();
+        Polynomial::new(new_coeffs)
     }
 }

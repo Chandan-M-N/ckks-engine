@@ -20,7 +20,9 @@ pub fn run_ckks_operations() {
     env_logger::init();
 
     // Set CKKS parameters: degree of polynomial (N = 2048) and prime modulus (q)
-    let params = CkksParameters::new(2048, 1000000000000007);
+    // let params = CkksParameters::new(2048, 1000000000000007);
+    // Set CKKS parameters: degree of polynomial (N = 2048) and prime modulus (q)
+    let params = CkksParameters::new(2048, 1152921504606846976); // q = 2^60
 
     // Key generation
     let keygen = KeyGenerator::new();
@@ -157,4 +159,13 @@ pub fn run_ckks_operations() {
     info!("Multiplication (int * float): {:?}", decrypted_scalar_int_float_multiply);
 
     info!("\n=== All operations completed ===");
+
+    info!("\n=== Homomorphic Round Operation ===");
+
+    let float_values = [3.14, 2.71, 1.41];
+    let encrypted_values = encryptor.encrypt_collection(&float_values);
+
+    let round_result = encryptor.homomorphic_round(&encrypted_values);
+    let decrypted_round = decryptor.decrypt(&round_result);
+    info!("Round of encrypted floats: {:?}", decrypted_round);
 }

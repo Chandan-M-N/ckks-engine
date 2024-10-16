@@ -3,7 +3,7 @@ use rand::Rng;
 use log::{info};
 
 // Define a constant scaling factor for encoding and decoding
-pub const SCALE: f64 = 1e5;  // Use a fixed scaling factor
+pub const SCALE: f64 = 1e7;  // Use a fixed scaling factor
 
 // Rounds a given value to a specified number of decimal places
 fn round_to(value: f64, decimal_places: usize) -> f64 {
@@ -77,3 +77,48 @@ pub fn mod_reduce(poly: &Polynomial, modulus: i64) -> Polynomial {
     info!("Performing modular reduction on polynomial {:?}. Result after mod reduction: {:?}", poly.coeffs, reduced);
     Polynomial::new(reduced)  // Return a new polynomial with reduced coefficients
 }
+
+// Add this function to your utils.rs
+pub fn polynomial_approximation(cipher: &Polynomial, operation: &str) -> Polynomial {
+    // For simplicity, let's assume we can apply the operation directly
+    // In practice, you'd need to use appropriate polynomial approximations
+    let approximated_coeffs: Vec<i64> = cipher.coeffs.iter().map(|&coeff| {
+        let value = (coeff as f64) / SCALE; // Decode the coefficient
+        let approximated_value = match operation {
+            "ceil" => value.ceil(),
+            "floor" => value.floor(),
+            "round" => value.round(),
+            "truncate" => value.trunc(),
+            _ => value,
+        };
+        // Re-encode the value
+        (approximated_value * SCALE).round() as i64
+    }).collect();
+
+    Polynomial::new(approximated_coeffs)
+}
+
+
+// Polynomial approximation of the sigmoid function
+pub fn sigmoid_approx(x: &Polynomial, modulus: i64) -> Polynomial {
+    // Approximate sigmoid(x) ≈ 0.5 * SCALE + (x * SCALE) / 4 - (x^3 * SCALE) / 48
+    let constant_term = Polynomial::new(vec![ (0.5 * SCALE) as i64; x.coeffs.len() ]);
+    let linear_term = x.scalar_multiply(1.0 / 4.0);
+    let x_square = x.multiply(&x);
+    let x_cube = x_square.multiply(&x);
+    let cubic_term = x_cube.scalar_multiply(-1.0 / 48.0);
+    let result = constant_term.add(&linear_term).add(&cubic_term);
+    mod_reduce(&result, modulus)
+}
+
+
+pub fn round_approx(x: &Polynomial, modulus: i64) -> Polynomial {
+    // Compute x - (sigmoid_approx(x - 0.5 * SCALE) - 0.5 * SCALE)
+    let half = Polynomial::new(vec![ (0.5 * SCALE) as i64; x.coeffs.len() ]);
+    let x_minus_half = x.subtract(&half);
+    let sigmoid = sigmoid_approx(&x_minus_half, modulus);
+    let sigmoid_minus_half = sigmoid.subtract(&half);
+    let result = x.subtract(&sigmoid_minus_half);
+    mod_reduce(&result, modulus)
+}
+
