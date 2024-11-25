@@ -9,7 +9,7 @@ documentation = "https://chandan-m-n.github.io/ckks-engine/ckks_engine/index.htm
 readme = "README.md"
 repository = "https://github.com/Chandan-M-N/ckks-engine"
 license = "MIT OR Apache-2.0"
-keywords = ["ckks", "homomorphic encryption","cryptography"]
+keywords = ["ckks","cryptography"]
 categories = ["cryptography"]
 
 
