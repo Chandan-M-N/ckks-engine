@@ -1,1 +1,0 @@
-searchState.loadedDescShard("windows_targets", 0, "Learn more about Rust for Windows here: …\nDefines an external function to import.")

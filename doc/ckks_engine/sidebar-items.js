@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["arithmetic","ckks","keygen","polynomial","stringfn","utils"]};

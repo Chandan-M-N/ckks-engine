@@ -1,7 +1,18 @@
 [package]
 name = "ckks-engine"
-version = "0.3.0"
+version = "4.0.0"
 edition = "2021"
+authors = ["Chandan Monabolu Narayana <chandan.mn7@uga.edu>", "Prathyusha Rangavalli Kurapati <prathyusha.kurapati@uga.edu>", "Santosh Kumar Pottumuthu <santoshkumar.pottumuthu@uga.edu>"]
+description = "ckks-engine is a Rust crate that provides an implementation of the CKKS (Cheon-Kim-Kim-Song) homomorphic encryption scheme. This enables encrypted computations on real numbers and strings while preserving the privacy of the underlying data. With ckks-engine, you can perform a wide range of mathematical operations on encrypted data, including addition, subtraction, multiplication, division, exponentiation, and more with some error accumulation in values due to the nature of approximate homomorphic encryption."
+rust-version = "1.78"
+documentation = "https://chandan-m-n.github.io/ckks-engine/ckks_engine/index.html"
+readme = "README.md"
+repository = "https://github.com/Chandan-M-N/ckks-engine"
+license = "MIT OR Apache-2.0"
+keywords = ["ckks", "homomorphic encryption","cryptography"]
+categories = ["cryptography"]
+
+
 
 [dependencies]
 ff = "0.9"  # Finite field arithmetic
