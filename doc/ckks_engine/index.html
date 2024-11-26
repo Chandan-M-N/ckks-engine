@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="rustdoc">
+  <meta name="description" content="API documentation for the Rust `ckks_engine` crate.">
+  <title>ckks_engine - Rust</title>
+  <script>
+    if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend",
+    "SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2"
+    .split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""));
+  </script>
+  <link rel="stylesheet" href="../static.files/normalize-9960930a.css">
+  <link rel="stylesheet" href="../static.files/rustdoc-42caa33d.css">
+  <meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="ckks_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (f2a35426b 2024-11-16)" data-channel="nightly" data-search-js="search-b6b1fcd2.js" data-settings-js="settings-0f613d39.js">
+  <script src="../static.files/storage-59e33391.js"></script>
+  <script defer src="../crates.js"></script>
+  <script defer src="../static.files/main-5f194d8c.js"></script>
+  <noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript>
+  <link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png">
+  <link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg">
+</head>
+<body class="rustdoc mod crate">
+  <!--[if lte IE 11]>
+    <div class="warning">This old browser is unsupported and will most likely display funky things.</div>
+  <![endif]-->
+  <nav class="mobile-topbar">
+    <button class="sidebar-menu-toggle" title="show sidebar"></button>
+  </nav>
+  <nav class="sidebar">
+    <div class="sidebar-crate">
+      <h2><a href="../ckks_engine/index.html">ckks_<wbr>engine</a><span class="version">0.3.0</span></h2>
+    </div>
+    <div class="sidebar-elems">
+      <ul class="block">
+        <li><a id="all-types" href="all.html">All Items</a></li>
+      </ul>
+      <section id="rustdoc-toc">
+        <h3><a href="#reexports">Crate Items</a></h3>
+        <ul class="block">
+          <li><a href="#modules" title="Modules">Modules</a></li>
+          <li><a href="all.html#structs" title="Structs">Structs</a></li>
+          <li><a href="all.html#functions" title="Functions">Functions</a></li>
+        </ul>
+      </section>
+      <div id="rustdoc-modnav"></div>
+    </div>
+  </nav>
+  <div class="sidebar-resizer"></div>
+  <main>
+    <div class="width-limiter">
+      <rustdoc-search></rustdoc-search>
+      <section id="main-content" class="content">
+        <div class="main-heading">
+          <h1>Crate <span>ckks_engine</span>
+            <button id="copy-path" title="Copy item path to clipboard">Copy item path</button>
+          </h1>
+          <rustdoc-toolbar></rustdoc-toolbar>
+          <span class="sub-heading"><a class="src" href="../src/ckks_engine/lib.rs.html#4-14">Source</a></span>
+        </div>
+        <section id="description">
+          <h2>About ckks_engine</h2>
+          <p>
+            <b>`ckks-engine`</b> is a Rust crate that provides an implementation of the CKKS (Cheon-Kim-Kim-Song) homomorphic encryption scheme. 
+            This scheme enables encrypted computations on real numbers and strings while preserving the privacy of the underlying data. 
+            With `ckks-engine`, you can perform a wide range of mathematical operations on encrypted data, including addition, subtraction, 
+            multiplication, division, exponentiation, and more, with some error accumulation due to the nature of approximate homomorphic encryption.
+          </p>
+          <h3>Key Features</h3>
+          <ul>
+            <li><b>CKKS Algorithm:</b> Full implementation of CKKS for encrypted computations on real numbers and strings.</li>
+            <li><b>Homomorphic Arithmetic:</b> Secure operations such as addition, subtraction, multiplication, and negation.</li>
+            <li><b>String Operations:</b> Supports encrypted string operations like length calculation, concatenation, and substring extraction.</li>
+            <li><b>Floating-Point Operations:</b> Functions for ceil, floor, round, and truncate on encrypted floating-point numbers.</li>
+            <li><b>Advanced Arithmetic:</b> Division and exponentiation for encrypted data.</li>
+            <li><b>Secure Key Generation:</b> Robust public and secret key management for secure encryption and decryption.</li>
+            <li><b>Utility Functions:</b> Tools for encoding and decoding real numbers and managing polynomial arithmetic.</li>
+          </ul>
+          <h3>Version History</h3>
+          <ul>
+            <li><b>Version 1.0:</b> Initial release with basic CKKS encryption and arithmetic operations.</li>
+            <li><b>Version 2.0:</b> Added floating-point operations and basic string functions.</li>
+            <li><b>Version 3.0:</b> Enhanced with advanced string and arithmetic features.</li>
+          </ul>
+          <h3>Project Architecture</h3>
+          <p>
+            The crate has a modular architecture to support scalability and separation of concerns. Major components include:
+          </p>
+          <ul>
+            <li><b>`ckks.rs`:</b> Core CKKS encryption and decryption functions.</li>
+            <li><b>`keygen.rs`:</b> Key generation for public and secret keys.</li>
+            <li><b>`polynomial.rs`:</b> Polynomial structures and operations.</li>
+            <li><b>`utils.rs`:</b> Encoding/decoding of real numbers into polynomials.</li>
+            <li><b>`arithmetic.rs`:</b> Homomorphic arithmetic operations on encrypted data.</li>
+            <li><b>`stringfn.rs`:</b> String processing on encrypted data.</li>
+          </ul>
+        </section>
+        <section id="examples">
+            <h2>Examples: Encryption and Decryption</h2>
+            <p>
+              Below are examples demonstrating how to encrypt and decrypt both collections and individual values using the <code>ckks_engine</code> crate.
+            </p>
+          
+            <h3>Encrypt and Decrypt Collections</h3>
+            <pre>
+              <code class="language-rust">
+// Import necessary modules
+use ckks_engine::*;
+          
+fn encrypt_decrypt_collection_example() {
+    // Set CKKS parameters
+    let params = CkksParameters::new(2048, 1000000000000007);
+
+    // Key generation
+    let keygen = KeyGenerator::new();
+    let (public_key, secret_key) = keygen.generate_keys();
+
+    // Initialize encryptor and decryptor
+    let encryptor = CKKSEncryptor::new(public_key.clone(), params.clone());
+    let decryptor = CKKSDecryptor::new(secret_key.clone(), params.clone());
+
+    // Collection to encrypt
+    let collection = [1.23, 4.56, 7.89];
+
+    // Encrypt the collection
+    let encrypted_collection = encryptor.encrypt_collection(&collection);
+
+    // Decrypt the collection
+    let decrypted_collection = decryptor.decrypt(&encrypted_collection);
+
+    // Output the result
+    println!("Original: {:?}", collection);
+    println!("Encrypted: {:?}", encrypted_collection);
+    println!("Decrypted: {:?}",decrypted_collection);
+}
+                
+              </code>
+            </pre>
+          
+            <h3>Encrypt and Decrypt a Single Value</h3>
+            <pre>
+              <code class="language-rust">
+// Import necessary modules
+use ckks_engine::*;
+          
+fn encrypt_decrypt_value_example() {
+    // Set CKKS parameters
+    let params = CkksParameters::new(2048, 1000000000000007);
+
+    // Key generation
+    let keygen = KeyGenerator::new();
+    let (public_key, secret_key) = keygen.generate_keys();
+
+    // Initialize encryptor and decryptor
+    let encryptor = CKKSEncryptor::new(public_key.clone(), params.clone());
+    let decryptor = CKKSDecryptor::new(secret_key.clone(), params.clone());
+
+    // Value to encrypt
+    let value = 3.14159;
+
+    // Encrypt the value
+    let encrypted_value = encryptor.encrypt_value(value);
+
+    // Decrypt the value
+    let decrypted_value = decryptor.decrypt(&encrypted_value);
+
+    // Output the result
+    println!("Original: {:?}", value);
+    println!("Encrypted: {:?}", encrypted_value);
+    println!("Decrypted: {:?}", decrypted_value);
+}
+              </code>
+            </pre>
+          
+            <p>
+              Copy and run the above examples in your Rust project to see how <code>ckks_engine</code> handles encryption and decryption for both collections and individual values.
+            </p>
+          </section>
+          
+        
+        <h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2>
+        <ul class="item-table">
+          <li><div class="item-name"><a class="mod" href="arithmetic/index.html" title="mod ckks_engine::arithmetic">arithmetic</a></div></li>
+          <li><div class="item-name"><a class="mod" href="ckks/index.html" title="mod ckks_engine::ckks">ckks</a></div></li>
+          <li><div class="item-name"><a class="mod" href="keygen/index.html" title="mod ckks_engine::keygen">keygen</a></div></li>
+          <li><div class="item-name"><a class="mod" href="polynomial/index.html" title="mod ckks_engine::polynomial">polynomial</a></div></li>
+          <li><div class="item-name"><a class="mod" href="stringfn/index.html" title="mod ckks_engine::stringfn">stringfn</a></div></li>
+          <li><div class="item-name"><a class="mod" href="utils/index.html" title="mod ckks_engine::utils">utils</a></div></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

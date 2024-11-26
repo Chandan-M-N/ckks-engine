@@ -1,0 +1,8 @@
+services:
+  ckks-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ckks-engine
+    working_dir: /usr/src/ckks-engine
+    command: tail -f /dev/null

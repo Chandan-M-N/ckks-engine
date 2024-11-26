@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="rustdoc">
+  <meta name="description" content="API documentation for the Rust `CKKSDecryptor` struct in crate `ckks_engine`.">
+  <title>CKKSDecryptor in ckks_engine::ckks - Rust</title>
+  <script>
+    if (window.location.protocol !== "file:") document.head.insertAdjacentHTML("beforeend", "SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f => `<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""));
+  </script>
+  <link rel="stylesheet" href="../../static.files/normalize-9960930a.css">
+  <link rel="stylesheet" href="../../static.files/rustdoc-42caa33d.css">
+  <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ckks_engine" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (f2a35426b 2024-11-16)" data-channel="nightly" data-search-js="search-b6b1fcd2.js" data-settings-js="settings-0f613d39.js">
+  <script src="../../static.files/storage-59e33391.js"></script>
+  <script defer src="sidebar-items.js"></script>
+  <script defer src="../../static.files/main-5f194d8c.js"></script>
+  <noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript>
+  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png">
+  <link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg">
+</head>
+<body class="rustdoc struct">
+  <!--[if lte IE 11]>
+    <div class="warning">This old browser is unsupported and will most likely display funky things.</div>
+  <![endif]-->
+  <nav class="mobile-topbar">
+    <button class="sidebar-menu-toggle" title="show sidebar"></button>
+  </nav>
+  <nav class="sidebar">
+    <div class="sidebar-crate">
+      <h2><a href="../../ckks_engine/index.html">ckks_<wbr>engine</a><span class="version">0.3.0</span></h2>
+    </div>
+    <div class="sidebar-elems">
+      <section id="rustdoc-toc">
+        <h2 class="location"><a href="#">CKKS<wbr>Decryptor</a></h2>
+        <h3><a href="#implementations">Methods</a></h3>
+        <ul class="block method">
+          <li><a href="#method.decrypt" title="decrypt">decrypt</a></li>
+          <li><a href="#method.decrypt_as_int" title="decrypt_as_int">decrypt_as_int</a></li>
+          <li><a href="#method.decrypt_string" title="decrypt_string">decrypt_string</a></li>
+          <li><a href="#method.new" title="new">new</a></li>
+        </ul>
+      </section>
+      <div id="rustdoc-modnav">
+        <h2><a href="index.html">In ckks_<wbr>engine::<wbr>ckks</a></h2>
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar-resizer"></div>
+  <main>
+    <div class="width-limiter">
+      <rustdoc-search></rustdoc-search>
+      <section id="main-content" class="content">
+        <div class="main-heading">
+          <span class="rustdoc-breadcrumbs"><a href="../index.html">ckks_engine</a>::<wbr><a href="index.html">ckks</a></span>
+          <h1>Struct <span class="struct">CKKSDecryptor</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1>
+          <rustdoc-toolbar></rustdoc-toolbar>
+          <span class="sub-heading"><a class="src" href="../../src/ckks_engine/ckks.rs.html#119-122">Source</a> </span>
+        </div>
+        <pre class="rust item-decl"><code>pub struct CKKSDecryptor { <span class="comment">/* private fields */</span> }</code></pre>
+        <p>The <code>CKKSDecryptor</code> is used for decrypting ciphertexts generated in the CKKS encryption scheme. It supports decryption into integers, floating-point numbers, and strings. The decryption process involves reversing the encryption scheme using the secret key.</p>
+        <h2 id="implementations" class="section-header">Implementations<a href="#implementations" class="anchor">§</a></h2>
+        <div id="implementations-list">
+          <details class="toggle implementors-toggle" open>
+            <summary>
+              <section id="impl-CKKSDecryptor" class="impl">
+                <a class="src rightside" href="../../src/ckks_engine/ckks.rs.html#124-198">Source</a><a href="#impl-CKKSDecryptor" class="anchor">§</a>
+                <h3 class="code-header">impl <a class="struct" href="struct.CKKSDecryptor.html" title="struct ckks_engine::ckks::CKKSDecryptor">CKKSDecryptor</a></h3>
+              </section>
+            </summary>
+            <div class="impl-items">
+              <section id="method.new" class="method">
+                <a class="src rightside" href="../../src/ckks_engine/ckks.rs.html#126-128">Source</a>
+                <h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>(sec_key: <a class="struct" href="../keygen/struct.SecretKey.html" title="struct ckks_engine::keygen::SecretKey">SecretKey</a>, params: <a class="struct" href="struct.CkksParameters.html" title="struct ckks_engine::ckks::CkksParameters">CkksParameters</a>) -&gt; Self</h4>
+                <p>Creates a new <code>CKKSDecryptor</code> instance with the provided secret key and encryption parameters.</p>
+              </section>
+              <section id="method.decrypt_as_int" class="method">
+                <a class="src rightside" href="../../src/ckks_engine/ckks.rs.html#130-151">Source</a>
+                <h4 class="code-header">pub fn <a href="#method.decrypt_as_int" class="fn">decrypt_as_int</a>(&amp;self, ciphertext: &amp;<a class="struct" href="../polynomial/struct.Polynomial.html" title="struct ckks_engine::polynomial::Polynomial">Polynomial</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a>&gt;</h4>
+                <p>Decrypts the ciphertext and returns the result as a vector of integers.</p>
+              </section>
+              <section id="method.decrypt" class="method">
+                <a class="src rightside" href="../../src/ckks_engine/ckks.rs.html#154-175">Source</a>
+                <h4 class="code-header">pub fn <a href="#method.decrypt" class="fn">decrypt</a>(&amp;self, ciphertext: &amp;<a class="struct" href="../polynomial/struct.Polynomial.html" title="struct ckks_engine::polynomial::Polynomial">Polynomial</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</h4>
+                <p>Decrypts the ciphertext and returns the result as a vector of floating-point numbers.</p>
+              </section>
+              <section id="method.decrypt_string" class="method">
+                <a class="src rightside" href="../../src/ckks_engine/ckks.rs.html#178-196">Source</a>
+                <h4 class="code-header">pub fn <a href="#method.decrypt_string" class="fn">decrypt_string</a>(&amp;self, ciphertext: &amp;<a class="struct" href="../polynomial/struct.Polynomial.html" title="struct ckks_engine::polynomial::Polynomial">Polynomial</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
+                <p>Decrypts the ciphertext and returns the result as a string.</p>
+              </section>
+            </div>
+          </details>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

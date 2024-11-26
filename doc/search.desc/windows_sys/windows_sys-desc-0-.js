@@ -1,0 +1,1 @@
+searchState.loadedDescShard("windows_sys", 0, "Learn more about Rust for Windows here: …\nA literal UTF-8 string with a trailing null terminator.\nA literal UTF-16 wide string with a trailing null …")
