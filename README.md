@@ -49,11 +49,11 @@ We have released the version 3.0 of `ckks-engine`. This version introduces new f
   - **Division**: Approximate division of encrypted values.
   - **Exponentiation**: Raise encrypted values to a power.
 
-# CKKS-Engine Final Release
+## CKKS-Engine Final Release(4.0.0)
 
 We are excited to announce the **final release** of `ckks-engine`. This release represents the culmination of our development efforts, introducing significant enhancements, robust testing, and improved usability. Below are the highlights of this release:
 
-## 🚀 Key Highlights
+### 🚀 Key Highlights
 
 ### 🐳 Docker Support
 - Added **Dockerized environment** for `ckks-engine`, enabling users to set up and run the library with minimal effort.
