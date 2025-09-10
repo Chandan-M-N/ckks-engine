@@ -60,10 +60,10 @@ pub fn run_ckks_arithmetic_operations() {
     let decrypted_int_array_multiply = decryptor.decrypt(&int_array_multiply);
     let decrypted_int_array_negate = decryptor.decrypt(&int_array_negate);
 
-    info!("Addition (int array + int array): {:?}", decrypted_int_array_add);
-    info!("Subtraction (int array - int array): {:?}", decrypted_int_array_subtract);
-    info!("Multiplication (int array * int array): {:?}", decrypted_int_array_multiply);
-    info!("Negation (int array): {:?}", decrypted_int_array_negate);
+    info!("Addition (int array + int array): {decrypted_int_array_add:?}");
+    info!("Subtraction (int array - int array): {decrypted_int_array_subtract:?}");
+    info!("Multiplication (int array * int array): {decrypted_int_array_multiply:?}");
+    info!("Negation (int array): {decrypted_int_array_negate:?}");
 
     // Float Array vs Float Array
     let float_array_add = encryptor.homomorphic_add(&encrypted_float_array1, &encrypted_float_array2);
@@ -76,10 +76,10 @@ pub fn run_ckks_arithmetic_operations() {
     let decrypted_float_array_multiply = decryptor.decrypt(&float_array_multiply);
     let decrypted_float_array_negate = decryptor.decrypt(&float_array_negate);
 
-    info!("Addition (float array + float array): {:?}", decrypted_float_array_add);
-    info!("Subtraction (float array - float array): {:?}", decrypted_float_array_subtract);
-    info!("Multiplication (float array * float array): {:?}", decrypted_float_array_multiply);
-    info!("Negation (float array): {:?}", decrypted_float_array_negate);
+    info!("Addition (float array + float array): {decrypted_float_array_add:?}");
+    info!("Subtraction (float array - float array): {decrypted_float_array_subtract:?}");
+    info!("Multiplication (float array * float array): {decrypted_float_array_multiply:?}");
+    info!("Negation (float array): {decrypted_float_array_negate:?}");
 
     // Integer Array vs Float Array
     let int_float_array_add = encryptor.homomorphic_add(&encrypted_int_array1, &encrypted_float_array1);
@@ -90,9 +90,9 @@ pub fn run_ckks_arithmetic_operations() {
     let decrypted_int_float_array_subtract = decryptor.decrypt(&int_float_array_subtract);
     let decrypted_int_float_array_multiply = decryptor.decrypt(&int_float_array_multiply);
 
-    info!("Addition (int array + float array): {:?}", decrypted_int_float_array_add);
-    info!("Subtraction (int array - float array): {:?}", decrypted_int_float_array_subtract);
-    info!("Multiplication (int array * float array): {:?}", decrypted_int_float_array_multiply);
+    info!("Addition (int array + float array): {decrypted_int_float_array_add:?}");
+    info!("Subtraction (int array - float array): {decrypted_int_float_array_subtract:?}");
+    info!("Multiplication (int array * float array): {decrypted_int_float_array_multiply:?}");
 
     // Homomorphic Operations on Scalars
     info!("\n=== Homomorphic Operations on Scalars ===");
@@ -108,10 +108,10 @@ pub fn run_ckks_arithmetic_operations() {
     let decrypted_scalar_int_multiply = decryptor.decrypt(&scalar_int_multiply);
     let decrypted_scalar_int_negate = decryptor.decrypt(&scalar_int_negate);
 
-    info!("Addition (int + int): {:?}", decrypted_scalar_int_add);
-    info!("Subtraction (int - int): {:?}", decrypted_scalar_int_subtract);
-    info!("Multiplication (int * int): {:?}", decrypted_scalar_int_multiply);
-    info!("Negation (int): {:?}", decrypted_scalar_int_negate);
+    info!("Addition (int + int): {decrypted_scalar_int_add:?}");
+    info!("Subtraction (int - int): {decrypted_scalar_int_subtract:?}");
+    info!("Multiplication (int * int): {decrypted_scalar_int_multiply:?}");
+    info!("Negation (int): {decrypted_scalar_int_negate:?}");
 
     // Float vs Float
     let scalar_float_add = encryptor.homomorphic_add(&encrypted_scalar_float1, &encrypted_scalar_float2);
@@ -124,10 +124,10 @@ pub fn run_ckks_arithmetic_operations() {
     let decrypted_scalar_float_multiply = decryptor.decrypt(&scalar_float_multiply);
     let decrypted_scalar_float_negate = decryptor.decrypt(&scalar_float_negate);
 
-    info!("Addition (float + float): {:?}", decrypted_scalar_float_add);
-    info!("Subtraction (float - float): {:?}", decrypted_scalar_float_subtract);
-    info!("Multiplication (float * float): {:?}", decrypted_scalar_float_multiply);
-    info!("Negation (float): {:?}", decrypted_scalar_float_negate);
+    info!("Addition (float + float): {decrypted_scalar_float_add:?}");
+    info!("Subtraction (float - float): {decrypted_scalar_float_subtract:?}");
+    info!("Multiplication (float * float): {decrypted_scalar_float_multiply:?}");
+    info!("Negation (float): {decrypted_scalar_float_negate:?}");
 
     // Integer vs Float
     let scalar_int_float_add = encryptor.homomorphic_add(&encrypted_scalar_int1, &encrypted_scalar_float1);
@@ -138,11 +138,11 @@ pub fn run_ckks_arithmetic_operations() {
     let decrypted_scalar_int_float_subtract = decryptor.decrypt(&scalar_int_float_subtract);
     let decrypted_scalar_int_float_multiply = decryptor.decrypt(&scalar_int_float_multiply);
 
-    info!("Addition (int + float): {:?}", decrypted_scalar_int_float_add);
-    info!("Subtraction (int - float): {:?}", decrypted_scalar_int_float_subtract);
-    info!("Multiplication (int * float): {:?}", decrypted_scalar_int_float_multiply);
+    info!("Addition (int + float): {decrypted_scalar_int_float_add:?}");
+    info!("Subtraction (int - float): {decrypted_scalar_int_float_subtract:?}");
+    info!("Multiplication (int * float): {decrypted_scalar_int_float_multiply:?}");
 
-   
+
 }
 
 fn main(){

@@ -107,8 +107,7 @@ impl Polynomial {
 
                 if b == 0 {
                     eprintln!(
-                        "Division by zero encountered at index {}. Defaulting to 0.",
-                        i
+                        "Division by zero encountered at index {i}. Defaulting to 0."
                     );
                     result_coeffs.push(0);
                     continue;
@@ -122,7 +121,7 @@ impl Polynomial {
                 match result {
                     Ok(value) => result_coeffs.push(value),
                     Err(_) => {
-                        eprintln!("Panic occurred during polynomial division at index {}. Defaulting to 0.", i);
+                        eprintln!("Panic occurred during polynomial division at index {i}. Defaulting to 0.");
                         result_coeffs.push(0); // Default value on panic
                     }
                 }

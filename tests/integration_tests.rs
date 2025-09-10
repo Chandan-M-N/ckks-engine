@@ -1,6 +1,5 @@
 use ckks_engine::*;
 use approx::AbsDiffEq;
-use crate::utils::{encode, decode, mod_reduce,decode_string,mod_reduce_string};
 
 fn run_homomorphic_arithmetic_tests(poly1: &[f64], poly2: Option<&[f64]>, epsilon: f64, large_epsilon: f64) {
     let keygen = KeyGenerator::new();
@@ -30,9 +29,7 @@ fn run_homomorphic_arithmetic_tests(poly1: &[f64], poly2: Option<&[f64]>, epsilo
                 .all(|(expected_val, decrypted_val)| {
                     decrypted_val.abs_diff_eq(expected_val, epsilon)
                 }),
-            "Addition failed. Expected: {:?}, Decrypted: {:?}",
-            expected_add,
-            decrypted_add
+            "Addition failed. Expected: {expected_add:?}, Decrypted: {decrypted_add:?}"
         );
     }
 
@@ -53,9 +50,7 @@ fn run_homomorphic_arithmetic_tests(poly1: &[f64], poly2: Option<&[f64]>, epsilo
                 .all(|(expected_val, decrypted_val)| {
                     decrypted_val.abs_diff_eq(expected_val, epsilon)
                 }),
-            "Subtraction failed. Expected: {:?}, Decrypted: {:?}",
-            expected_sub,
-            decrypted_sub
+            "Subtraction failed. Expected: {expected_sub:?}, Decrypted: {decrypted_sub:?}"
         );
     }
 
@@ -76,14 +71,12 @@ fn run_homomorphic_arithmetic_tests(poly1: &[f64], poly2: Option<&[f64]>, epsilo
                 .all(|(expected_val, decrypted_val)| {
                     decrypted_val.abs_diff_eq(expected_val, large_epsilon)
                 }),
-            "Multiplication failed. Expected: {:?}, Decrypted: {:?}",
-            expected_mul,
-            decrypted_mul
+            "Multiplication failed. Expected: {expected_mul:?}, Decrypted: {decrypted_mul:?}"
         );
     }
 
     // Test negation
-    if let Some(_) = Some(&encrypted_poly1) {
+    if Some(&encrypted_poly1).is_some() {
         let encrypted_neg = encryptor.homomorphic_negation(&encrypted_poly1);
         let decrypted_neg = decryptor.decrypt(&encrypted_neg);
         let expected_neg: Vec<f64> = poly1.iter().map(|&a| ((-a) * 100.0).round() / 100.0).collect();
@@ -95,14 +88,12 @@ fn run_homomorphic_arithmetic_tests(poly1: &[f64], poly2: Option<&[f64]>, epsilo
                 .all(|(expected_val, decrypted_val)| {
                     decrypted_val.abs_diff_eq(expected_val, epsilon)
                 }),
-            "Negation failed. Expected: {:?}, Decrypted: {:?}",
-            expected_neg,
-            decrypted_neg
+            "Negation failed. Expected: {expected_neg:?}, Decrypted: {decrypted_neg:?}"
         );
     }
 
     // Test exponentiation
-    if let Some(_) = Some(&encrypted_poly1) {
+    if Some(&encrypted_poly1).is_some() {
         let exponent = 2;
         let encrypted_exp = encryptor.homomorphic_exponentiation(&encrypted_poly1, exponent);
         let decrypted_exp = decryptor.decrypt(&encrypted_exp);
@@ -118,9 +109,7 @@ fn run_homomorphic_arithmetic_tests(poly1: &[f64], poly2: Option<&[f64]>, epsilo
                 .all(|(expected_val, decrypted_val)| {
                     decrypted_val.abs_diff_eq(expected_val, large_epsilon)
                 }),
-            "Exponentiation failed. Expected: {:?}, Decrypted: {:?}",
-            expected_exp,
-            decrypted_exp
+            "Exponentiation failed. Expected: {expected_exp:?}, Decrypted: {decrypted_exp:?}"
         );
     }
 
@@ -141,9 +130,7 @@ fn run_homomorphic_arithmetic_tests(poly1: &[f64], poly2: Option<&[f64]>, epsilo
                 .all(|(expected_val, decrypted_val)| {
                     decrypted_val.abs_diff_eq(expected_val, large_epsilon)
                 }),
-            "Division failed. Expected: {:?}, Decrypted: {:?}",
-            expected_div,
-            decrypted_div
+            "Division failed. Expected: {expected_div:?}, Decrypted: {decrypted_div:?}"
         );
     }
 
@@ -285,7 +272,7 @@ fn test_homomorphic_concatenation() {
 
         let concatenated_encrypted = encryptor.concatenate_encrypted_strings(&encrypted_data1, &encrypted_data2);
         let decrypted_data = decryptor.decrypt_string(&concatenated_encrypted);
-        let expected_string = format!("{}{}", string1, inner_string2);
+        let expected_string = format!("{string1}{inner_string2}");
         assert_eq!(decrypted_data, expected_string, "Homomorphic concatenation failed");
     }
 }
@@ -300,8 +287,7 @@ fn test_encrypt_and_decrypt_string() {
 
     assert_eq!(
         decrypted_string, original_string,
-        "Encrypt and decrypt failed. Original: {}, Decrypted: {}",
-        original_string, decrypted_string
+        "Encrypt and decrypt failed. Original: {original_string}, Decrypted: {decrypted_string}"
     );
 }
 
@@ -311,7 +297,7 @@ fn test_encrypt_and_decrypt_string() {
 fn test_homomorphic_substring_extraction() {
     let (encryptor, decryptor) = initialize_ckks();
     let original_string = "HelloWorld";
-    let encrypted_string = encryptor.encrypt_string(&original_string);
+    let encrypted_string = encryptor.encrypt_string(original_string);
 
     let substring_start = 5;
     let substring_end = 10;
@@ -346,7 +332,7 @@ fn test_homomorphic_substring_extraction() {
 fn validate_string_size(size: usize) -> bool {
     const MAX_ALLOWED_SIZE: usize = 10_000_000; // Define a reasonable maximum size
     if size > MAX_ALLOWED_SIZE {
-        println!("Error: String size exceeds the allowed limit of {} bytes.", MAX_ALLOWED_SIZE);
+        println!("Error: String size exceeds the allowed limit of {MAX_ALLOWED_SIZE} bytes.");
         return false;
     }
     true
@@ -430,12 +416,11 @@ fn test_combined_string_operations() {
     let decrypted_extracted = decryptor.decrypt_string(&extracted_encrypted);
 
     // Assert equality
-    let expected_concatenated = format!("{}{}{}", string1, string2, string3);
+    let expected_concatenated = format!("{string1}{string2}{string3}");
     let expected_substring = &expected_concatenated[substring_range];
     assert_eq!(
         decrypted_concatenated, expected_concatenated,
-        "Concatenation failed. Expected: {}, Found: {}",
-        expected_concatenated, decrypted_concatenated
+        "Concatenation failed. Expected: {expected_concatenated}, Found: {decrypted_concatenated}"
     );
     assert_eq!(
         concatenated_length, expected_concatenated.len(),
@@ -444,8 +429,7 @@ fn test_combined_string_operations() {
     );
     assert_eq!(
         decrypted_extracted, expected_substring,
-        "Substring extraction failed. Expected: {}, Found: {}",
-        expected_substring, decrypted_extracted
+        "Substring extraction failed. Expected: {expected_substring}, Found: {decrypted_extracted}"
     );
 }
 
@@ -464,8 +448,7 @@ fn test_encrypt_and_decrypt_emojis() {
     // Assert equality
     assert_eq!(
         decrypted_string, original_string,
-        "Emoji encryption and decryption failed. Original: {}, Decrypted: {}",
-        original_string, decrypted_string
+        "Emoji encryption and decryption failed. Original: {original_string}, Decrypted: {decrypted_string}"
     );
 }
 
@@ -484,8 +467,7 @@ fn test_encrypt_and_decrypt_multilingual() {
     // Assert equality
     assert_eq!(
         decrypted_string, original_string,
-        "Multilingual string encryption and decryption failed. Original: {}, Decrypted: {}",
-        original_string, decrypted_string
+        "Multilingual string encryption and decryption failed. Original: {original_string}, Decrypted: {decrypted_string}"
     );
 }
 
@@ -509,12 +491,11 @@ fn test_concatenate_strings_with_emojis() {
     let decrypted_concatenated = decryptor.decrypt_string(&concatenated_encrypted);
 
     // Assert equality
-    let expected_concatenated = format!("{}{}", string1, string2);
-    println!("Concatednated String is : {}",decrypted_concatenated);
+    let expected_concatenated = format!("{string1}{string2}");
+    println!("Concatednated String is : {decrypted_concatenated}");
     assert_eq!(
         decrypted_concatenated, expected_concatenated,
-        "Concatenation with emojis failed. Expected: {}, Found: {}",
-        expected_concatenated, decrypted_concatenated
+        "Concatenation with emojis failed. Expected: {expected_concatenated}, Found: {decrypted_concatenated}"
     );
 }
 

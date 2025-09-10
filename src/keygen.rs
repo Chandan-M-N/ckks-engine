@@ -16,6 +16,12 @@ pub struct SecretKey {
 // Struct for key generation
 pub struct KeyGenerator;
 
+impl Default for KeyGenerator {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl KeyGenerator {
     // Constructor to create a new KeyGenerator
     pub fn new() -> Self {
@@ -24,18 +30,18 @@ impl KeyGenerator {
 
     // Function to generate a pair of public and secret keys
     pub fn generate_keys(&self) -> (PublicKey, SecretKey) {
-        let mut rng = rand::thread_rng();  // Create a random number generator
-        
+        let mut rng = rand::rng();  // Create a random number generator
+
         // Generate secret key (random polynomial of size 2048)
-        let sec_key_poly: Vec<i64> = (0..2048).map(|_| rng.gen_range(1..100)).collect();
+        let sec_key_poly: Vec<i64> = (0..2048).map(|_| rng.random_range(1..100)).collect();
         let sec_key = SecretKey { poly: sec_key_poly.clone() };  // Create secret key using the generated polynomial
 
         // Generate a random polynomial for public key generation
-        let random_poly: Vec<i64> = (0..2048).map(|_| rng.gen_range(1..100)).collect();
-      
+        let random_poly: Vec<i64> = (0..2048).map(|_| rng.random_range(1..100)).collect();
+
         // Create public key polynomials
         let pk_0: Vec<i64> = sec_key_poly.iter().zip(&random_poly)
-            .map(|(&sk, &r)| -sk * r + rng.gen_range(-10..10))  // Compute pk_0 as -sk * random + noise
+            .map(|(&sk, &r)| -sk * r + rng.random_range(-10..10))  // Compute pk_0 as -sk * random + noise
             .collect();
         let pk_1: Vec<i64> = random_poly;  // Set pk_1 to the random polynomial
 
@@ -47,6 +53,3 @@ impl KeyGenerator {
 
 
 }
-
-
-

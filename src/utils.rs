@@ -15,16 +15,16 @@ pub fn encode(plaintext: &[f64], scaling_factor: f64) -> Polynomial {
         panic!("Scaling factor must be positive");  // Ensure the scaling factor is positive
     }
     // Print the input plaintext and scaling factor
-    info!("Encoding real numbers {:?} with scaling factor {}", plaintext, scaling_factor);
-    
+    info!("Encoding real numbers {plaintext:?} with scaling factor {scaling_factor}");
+
     // Scale the real numbers and convert them to integer coefficients
     let coeffs: Vec<i64> = plaintext.iter()
         .map(|&x| (x * scaling_factor).round() as i64)  // Scale the real numbers
         .collect();
-    
+
     // Print the resulting polynomial coefficients
-    info!("Encoded polynomial coefficients: {:?}", coeffs);
-    
+    info!("Encoded polynomial coefficients: {coeffs:?}");
+
     Polynomial::new(coeffs)  // Return a new polynomial with the coefficients
 }
 
@@ -52,18 +52,18 @@ pub fn decode(ciphertext: &Polynomial, scaling_factor: f64) -> Vec<f64> {
             }
         })
         .collect();
-    
+
     // Print the decoded real numbers
-    info!("Decoded real numbers (with thresholding and rounding): {:?}", decoded_values);
+    info!("Decoded real numbers (with thresholding and rounding): {decoded_values:?}");
 
     decoded_values  // Return the decoded values
 }
 
 // Add noise to a polynomial
 pub fn add_noise(poly: &Polynomial, _pub_key: &impl std::fmt::Debug) -> Polynomial {
-    let mut rng = rand::thread_rng();  // Create a random number generator
+    let mut rng = rand::rng();  // Create a random number generator
     // Generate noise for each coefficient of the polynomial
-    let noise: Vec<i64> = poly.coeffs.iter().map(|&coeff| coeff + rng.gen_range(-10..10)).collect();
+    let noise: Vec<i64> = poly.coeffs.iter().map(|&coeff| coeff + rng.random_range(-10..10)).collect();
     info!("Adding noise to polynomial {:?}. Result after noise addition: {:?}", poly.coeffs, noise);
     Polynomial::new(noise)  // Return a new polynomial with added noise
 }
@@ -80,14 +80,14 @@ pub fn mod_reduce(poly: &Polynomial, modulus: i64) -> Polynomial {
 pub fn mod_reduce_string(poly: &Polynomial, modulus: i64) -> Polynomial {
     // Reduce each coefficient of the polynomial modulo the given modulus
     let reduced: Vec<i64> = poly.coeffs.iter().map(|&coeff| coeff % modulus).collect();
-    
+
     // Log the before and after state of the coefficients
     info!("Performing modular reduction on polynomial {:?}.", poly.coeffs);
-    info!("Result after mod reduction: {:?}", reduced);
+    info!("Result after mod reduction: {reduced:?}");
 
     // Filter out zero coefficients if necessary (optional)
     let filtered: Vec<i64> = reduced.into_iter().filter(|&coeff| coeff != 0).collect();
-    info!("Filtered coefficients (non-zero): {:?}", filtered);
+    info!("Filtered coefficients (non-zero): {filtered:?}");
 
     Polynomial::new(filtered)  // Return a new polynomial with reduced coefficients
 }
@@ -143,7 +143,7 @@ pub fn encode_string(plaintext: &str, scaling_factor: f64) -> Polynomial {
         })
         .collect();
 
-    info!("Encoded string '{}' as polynomial coefficients: {:?}", plaintext, coeffs);
+    info!("Encoded string '{plaintext}' as polynomial coefficients: {coeffs:?}");
 
     Polynomial::new(coeffs) // Return the polynomial with encoded coefficients
 }

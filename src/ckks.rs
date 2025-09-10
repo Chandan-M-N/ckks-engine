@@ -35,12 +35,12 @@ impl CKKSEncryptor {
         T: Into<f64> + Copy,  // T can be converted into f64 and must implement Copy
     {
         let scaling_factor = 1e7; // Set scaling factor for encoding
-        info!("Using scaling factor: {}", scaling_factor);
+        info!("Using scaling factor: {scaling_factor}");
         
         // Step 2: Encode the plaintext into a polynomial
         let plaintext_f64: Vec<f64> = plaintext.iter().map(|&x| x.into()).collect();  // Convert to f64
         let encoded = encode(&plaintext_f64, scaling_factor);
-        info!("Encoded plaintext: {:?}", encoded);
+        info!("Encoded plaintext: {encoded:?}");
 
         // Step 3: Use public key for encryption
         let encrypted_poly: Vec<i64> = encoded.coeffs.iter()
@@ -49,12 +49,12 @@ impl CKKSEncryptor {
             .map(|((&e, &pk0), &pk1)| e + pk0 * pk1)  // Encrypt: encoded + pk_0 * pk_1
             .collect();
         let encrypted_polynomial = Polynomial::new(encrypted_poly);
-        info!("Encrypted polynomial: {:?}", encrypted_polynomial);
+        info!("Encrypted polynomial: {encrypted_polynomial:?}");
 
         // Step 4: Perform modular reduction using the prime modulus
-        let ciphertext = mod_reduce(&encrypted_polynomial, self.params.modulus);
+        
 
-        ciphertext  // Return ciphertext
+        mod_reduce(&encrypted_polynomial, self.params.modulus)  // Return ciphertext
     }
 
     // Function to encrypt a single plaintext value
@@ -68,7 +68,7 @@ impl CKKSEncryptor {
         // Step 2: Encode the plaintext into a polynomial
         let scaling_factor = 1e7; // Set a scaling factor for encoding
         let encoded = encode(&plaintext_vec, scaling_factor);
-        info!("Encoded plaintext: {:?}", encoded);
+        info!("Encoded plaintext: {encoded:?}");
 
         // Step 3: Use public key for encryption
         let encrypted_poly: Vec<i64> = encoded.coeffs.iter()
@@ -77,12 +77,12 @@ impl CKKSEncryptor {
             .map(|((&e, &pk0), &pk1)| e + pk0 * pk1) // Encrypt: encoded + pk_0 * pk_1
             .collect();
         let encrypted_polynomial = Polynomial::new(encrypted_poly);
-        info!("Encrypted polynomial: {:?}", encrypted_polynomial);
+        info!("Encrypted polynomial: {encrypted_polynomial:?}");
 
         // Step 4: Perform modular reduction using the prime modulus
-        let ciphertext = mod_reduce(&encrypted_polynomial, self.params.modulus);
+        
 
-        ciphertext  // Return ciphertext
+        mod_reduce(&encrypted_polynomial, self.params.modulus)  // Return ciphertext
     }
 
     // Function to encrypt a string
@@ -91,7 +91,7 @@ impl CKKSEncryptor {
         
         // Step 1: Encode the plaintext string into a polynomial
         let encoded = encode_string(plaintext, scaling_factor);  // Use encode_string for string
-        info!("Encoded plaintext: {:?}", encoded);
+        info!("Encoded plaintext: {encoded:?}");
     
         // Step 2: Ensure the public keys and encoded polynomial match in length
         if self.pub_key.pk_0.len() < encoded.coeffs.len() || self.pub_key.pk_1.len() < encoded.coeffs.len() {
@@ -106,11 +106,11 @@ impl CKKSEncryptor {
             .collect();
         
         let encrypted_polynomial = Polynomial::new(encrypted_poly);
-        info!("Encrypted polynomial: {:?}", encrypted_polynomial);
+        info!("Encrypted polynomial: {encrypted_polynomial:?}");
     
         // Step 4: Perform modular reduction using the prime modulus
-        let ciphertext = mod_reduce_string(&encrypted_polynomial, self.params.modulus);
-        ciphertext  // Return ciphertext
+        
+        mod_reduce_string(&encrypted_polynomial, self.params.modulus)  // Return ciphertext
     }
     
 }
@@ -129,11 +129,11 @@ impl CKKSDecryptor {
     //decrypt for int
     pub fn decrypt_as_int(&self, ciphertext: &Polynomial) -> Vec<i64> {
         // Log the ciphertext before decryption
-        info!("Ciphertext before decryption: {:?}", ciphertext);
+        info!("Ciphertext before decryption: {ciphertext:?}");
 
         // Step 1: Perform modular reduction
         let reduced_poly = mod_reduce(ciphertext, self.params.modulus);
-        info!("Ciphertext after modular reduction: {:?}", reduced_poly);
+        info!("Ciphertext after modular reduction: {reduced_poly:?}");
 
         // Step 2: Apply the secret key to reverse the encryption
         let decrypted_poly: Vec<i64> = reduced_poly.coeffs.iter()
@@ -141,11 +141,11 @@ impl CKKSDecryptor {
             .map(|(&c, &sk)| c - sk) // Subtract secret key influence
             .collect();
         let decrypted_polynomial = Polynomial::new(decrypted_poly);
-        info!("Decrypted polynomial (after applying secret key): {:?}", decrypted_polynomial);
+        info!("Decrypted polynomial (after applying secret key): {decrypted_polynomial:?}");
 
         // Step 3: Decode the decrypted polynomial to get integer values
         let decoded = decrypted_polynomial.decode(); // Vec<i64>
-        info!("Decoded plaintext (after decryption): {:?}", decoded);
+        info!("Decoded plaintext (after decryption): {decoded:?}");
 
         decoded
     }
@@ -153,7 +153,7 @@ impl CKKSDecryptor {
     // Function to decrypt a ciphertext polynomial
     pub fn decrypt(&self, ciphertext: &Polynomial) -> Vec<f64> {
         // Print the ciphertext before decryption for debugging
-        info!("Ciphertext before decryption: {:?}", ciphertext);
+        info!("Ciphertext before decryption: {ciphertext:?}");
 
         // Step 1: Perform modular reduction to keep coefficients manageable
         let reduced_poly = mod_reduce(ciphertext, self.params.modulus);
@@ -164,12 +164,12 @@ impl CKKSDecryptor {
             .map(|(&c, &sk)| c - sk)  // Subtract secret key influence
             .collect();
         let decrypted_polynomial = Polynomial::new(decrypted_poly);
-        info!("Decrypted polynomial (after applying secret key): {:?}", decrypted_polynomial);
+        info!("Decrypted polynomial (after applying secret key): {decrypted_polynomial:?}");
 
         let scaling_factor = 1e7; // Set scaling factor for decoding
         // Step 3: Decode the result and scale it back to retrieve the original value
         let decoded = decode(&decrypted_polynomial, scaling_factor);
-        info!("Decoded plaintext (after decryption): {:?}", decoded);
+        info!("Decoded plaintext (after decryption): {decoded:?}");
 
         decoded // Return the decoded plaintext values
     }
@@ -188,11 +188,11 @@ impl CKKSDecryptor {
             .collect();
         
         let decrypted_polynomial = Polynomial::new(decrypted_poly);
-        info!("Decrypted polynomial: {:?}", decrypted_polynomial);
+        info!("Decrypted polynomial: {decrypted_polynomial:?}");
     
         // Step 3: Decode the polynomial back into a string
-        let decoded_string = decode_string(&decrypted_polynomial, scaling_factor);  // Use decode_string for string
-        decoded_string  // Return the decrypted string
+          // Use decode_string for string
+        decode_string(&decrypted_polynomial, scaling_factor)  // Return the decrypted string
     }
     
 }
