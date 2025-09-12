@@ -8,7 +8,7 @@ fn log_homomorphic_operation_results(
     label: &str,
 ) {
     info!("\n========================================");
-    info!("Decrypted {} values for {}: {:?}", operation, label, decrypted_values);
+    info!("Decrypted {operation} values for {label}: {decrypted_values:?}");
 }
 
 fn test_homomorphic_exponentiation() {
@@ -25,7 +25,9 @@ fn test_homomorphic_exponentiation() {
     let decryptor = CKKSDecryptor::new(secret_key.clone(), params.clone());
 
     // Declare a float array and a scalar float value
+    #[allow(clippy::approx_constant)]
     let float_array = [2.3, 3.14, 4.5];
+    #[allow(clippy::approx_constant)]
     let scalar_float = 3.14;
 
     // Encrypt float array and scalar float
@@ -42,7 +44,7 @@ fn test_homomorphic_exponentiation() {
     log_homomorphic_operation_results(
         "exponentiation",
         &decrypted_exp_float_array,
-        &format!("float array ^ {}", exponent)
+        &format!("float array ^ {exponent}")
     );
 
     // Perform exponentiation on encrypted scalar float
@@ -51,7 +53,7 @@ fn test_homomorphic_exponentiation() {
     log_homomorphic_operation_results(
         "exponentiation",
         &decrypted_exp_scalar_float,
-        &format!("scalar float ^ {}", exponent)
+        &format!("scalar float ^ {exponent}")
     );
 
     info!("\n=== Exponentiation Operations Completed ===");
@@ -81,7 +83,7 @@ fn test_homomorphic_divide() {
 
     // Decrypt the result as integers
     let decrypted_division = decryptor.decrypt(&encrypted_division);
-    info!("Decrypted division result: {:?}", decrypted_division);
+    info!("Decrypted division result: {decrypted_division:?}");
 }
 
 pub fn adv_string_operations(){
@@ -109,15 +111,12 @@ pub fn adv_string_operations(){
 
    let decrypted_string1 = decryptor.decrypt_string(&concatenate);
 
-   info!("Decrypted Concatenated String : {:?}", decrypted_string1);
+   info!("Decrypted Concatenated String : {decrypted_string1:?}");
 
    let encrypted_substring = encryptor.extract_encrypted_substring(&encrypted_string1, ..3);
 
    let decrypted_string2 = decryptor.decrypt_string(&encrypted_substring);
-   info!("Decrypted Sub String : {:?}", decrypted_string2);
-
-
-
+   info!("Decrypted Sub String : {decrypted_string2:?}");
 }
 
 fn main(){
@@ -125,7 +124,7 @@ fn main(){
      env_logger::Builder::from_default_env()
      .filter_level(log::LevelFilter::Info)
      .init();
- 
+
  // Run the homomorphic exponentiation test
  test_homomorphic_exponentiation();
  test_homomorphic_divide();
